@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: zepol-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5433:5432"
+    volumes:
+      - zepol_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  api:
+    build: ./backend
+    container_name: zepol-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}?schema=public
+      - PORT=${API_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${API_PORT}/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:${API_PORT:-4000}/api}
+    container_name: zepol-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # En producción, inyectar NEXT_PUBLIC_API_URL desde el entorno con tu dominio real
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:${API_PORT:-4000}/api}
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  zepol_postgres_data:

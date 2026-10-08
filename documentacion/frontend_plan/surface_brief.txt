@@ -1,0 +1,11 @@
+THESIS: Un portal B2B donde el cotizador industrial (preciso y anclado al inventario real) no está oculto detrás de marketing genérico, sino que es la pieza central desde el primer segundo. La venta de manufactura requiere transparencia y rapidez, no plantillas SaaS.
+
+OWN-WORLD: Estética robusta de planta industrial. Paleta dominada por el azul marino profundo de Zepol ("Zepol Navy") como ancla de confianza, acentuada con colores de la rueda del logo para alertas de estado o CTAs. Uso de tipografía limpia, geométrica (estilo Inter o Roboto) que recuerde a interfaces de maquinaria o dashboards industriales. Texturas sutiles que evoquen envases físicos (brillo de BOPP o mate de trilaminados).
+
+STORY: El cliente B2B o vendedor en campo llega sabiendo lo que quiere. Entiende instantáneamente que esto es una herramienta directa a producción. Cotiza con confianza, viendo que la empresa tiene el respaldo de calidad (ISO 9001) y la tecnología para validar su stock.
+
+FIRST VIEWPORT: Hero dividido pero dominado por la acción: a la izquierda (o centro-fuerte), la calculadora de cotización (Ingreso de ancho, alto, tipo de material, gramaje). A la derecha o fondo, una imagen heroica de la manufactura o del producto final, oscurecida con el Zepol Navy para dar contraste al cotizador. Sin carruseles, la herramienta es el hero.
+
+FORM: Brief-pinned (Cotizador industrial directo). 
+
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.

@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MaterialType {
+  BASE
+  INK
+}
+
+enum TransactionType {
+  IN
+  OUT
+  RESERVE
+  COMMIT
+  CANCEL
+}
+
+enum QuoteStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+}
+
+model Material {
+  id             String       @id @default(uuid())
+  name           String
+  type           MaterialType
+  grammageGm2    Float
+  pricePerKg     Float
+  stockKg        Float
+  wasteMarginPct Float
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  transactions   InventoryTransaction[]
+
+  @@map("materials")
+}
+
+model InventoryTransaction {
+  id               String          @id @default(uuid())
+  materialId       String
+  type             TransactionType
+  amountKg         Float
+  referenceQuoteId String?
+  notes            String?
+  createdAt        DateTime        @default(now())
+
+  material         Material        @relation(fields: [materialId], references: [id])
+
+  @@map("inventory_transactions")
+}
+
+model Client {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  companyName  String?
+  contactName  String
+  quotes       Quote[]
+
+  @@map("clients")
+}
+
+model Quote {
+  id           String       @id @default(uuid())
+  clientId     String
+  status       QuoteStatus  @default(DRAFT)
+  totalPrice   Float
+  validUntil   DateTime
+  createdAt    DateTime     @default(now())
+  
+  client       Client       @relation(fields: [clientId], references: [id])
+  items        QuoteItem[]
+
+  @@map("quotes")
+}
+
+model QuoteItem {
+  id                   String  @id @default(uuid())
+  quoteId              String
+  baseMaterialId       String
+  inkMaterialId        String?
+  packageWidthCm       Float
+  packageHeightCm      Float
+  quantity             Int
+  inkCoveragePct       Float
+
+  calculatedAreaM2     Float
+  calculatedMaterialKg Float
+  calculatedInkKg      Float
+  itemPrice            Float
+
+  quote                Quote   @relation(fields: [quoteId], references: [id])
+
+  @@map("quote_items")
+}
