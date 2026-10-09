@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --zepol-primary: #1E3A8A; /* Azul corporativo profundo */
+  --zepol-secondary: #0F172A; /* Azul pizarra ultra oscuro */
+  --zepol-accent: #0891B2; /* Cian moderno */
+  --zepol-bg: #F1F5F9; /* Gris/Azul muy claro */
+  --zepol-surface: #FFFFFF; /* Blanco puro para cards */
+  
+  --zepol-dark-bg: #0F172A; /* Fondo para secciones oscuras/industriales */
+  --zepol-dark-surface: #1E293B; /* Cards en secciones oscuras */
+}
+
+@theme inline {
+  --color-zepol-primary: var(--zepol-primary);
+  --color-zepol-secondary: var(--zepol-secondary);
+  --color-zepol-accent: var(--zepol-accent);
+  --color-zepol-bg: var(--zepol-bg);
+  --color-zepol-surface: var(--zepol-surface);
+  --color-zepol-dark-bg: var(--zepol-dark-bg);
+  --color-zepol-dark-surface: var(--zepol-dark-surface);
+  
+  --font-sans: var(--font-inter);
+  --font-russo: var(--font-russo);
+  
+  /* Impeccable Design System - Roundness */
+  --radius-zepol: 0.5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--zepol-bg);
+  color: var(--zepol-secondary);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
